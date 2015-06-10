@@ -7,7 +7,7 @@
     <ProjectGuid>{E8B7A2B3-9921-42D4-93A1-F5B8498B0832}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConsoleApplication1</RootNamespace>
+    <RootNamespace>RoslynCSharpToTypeScriptConverter</RootNamespace>
     <AssemblyName>ConsoleApplication1</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -117,9 +117,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Jawn.cs" />
+    <Compile Include="CSharpConstants.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypeScriptClass.cs" />
+    <Compile Include="TypeScriptConstants.cs" />
+    <Compile Include="TypeScriptRoslynSolutionParser.cs" />
+    <Compile Include="TypeScriptEnum.cs" />
+    <Compile Include="TypeScriptEnumerableType.cs" />
+    <Compile Include="TypeScriptEnumValue.cs" />
+    <Compile Include="TypeScriptProperty.cs" />
+    <Compile Include="TypeScriptBaseType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
