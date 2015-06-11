@@ -8,6 +8,7 @@ namespace RoslynCSharpToTypeScriptConverter
     public class TypeScriptBaseType
     {
         public string Name;
+        public bool IsUnresolved;
 
         public TypeScriptBaseType() { }
 

@@ -39,6 +39,22 @@ namespace RoslynCSharpToTypeScriptConverter
                     _classes.Add(ParseDocument(CSharpClass));
                 }
             }
+
+            ResolveReferences();
+        }
+
+        private void ResolveReferences()
+        {
+            var internalClasses = _classes.Select(x => x.Name).Distinct().ToDictionary(x => x);
+
+            var unresolvedProperties = _classes.SelectMany(x => x.Properties).Where(x => x.Type.IsUnresolved == true);
+            var throwaway = string.Empty;
+            var unresolvedPropertiesWithoutInternalReferences = unresolvedProperties.Where(x => !internalClasses.TryGetValue(x.Type.Name, out throwaway));
+
+            foreach (var x in unresolvedPropertiesWithoutInternalReferences)
+            {
+                x.Type.Name = TypeScriptConstants.ANY_IDENTIFIER;
+            }
         }
 
         private TypeScriptClass ParseDocument(Document doc)
@@ -169,6 +185,7 @@ namespace RoslynCSharpToTypeScriptConverter
                 }
                 else
                 {
+                    //Can't find a way to figure out what the <T> is of the Nullable Type
                     if (CSharpConstants.NULLABLE_IDENTIFIER.Equals(typeName))
                     {
                         type = new TypeScriptBaseType(TypeScriptConstants.ANY_IDENTIFIER);
@@ -176,14 +193,14 @@ namespace RoslynCSharpToTypeScriptConverter
                     else
                     {
                         //If it's not an enumerable, just return the default name
-                        type = new TypeScriptBaseType(typeSymbol.OriginalDefinition.Name);
+                        type = new TypeScriptBaseType { Name = typeSymbol.OriginalDefinition.Name, IsUnresolved = true };
                     }
                 }
             }
             else
             {
                 //If it's not a typescript primitive type, just return the name of the type 
-                type = new TypeScriptBaseType(typeSymbol.OriginalDefinition.Name);
+                type = new TypeScriptBaseType { Name = typeSymbol.OriginalDefinition.Name, IsUnresolved = true };
             }
 
             return type;
